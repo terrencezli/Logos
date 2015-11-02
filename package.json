@@ -1,0 +1,21 @@
+{
+  "name": "logos",
+  "version": "1.0.0",
+  "description": "logo recommendation api",
+  "main": "linkedAPI.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/terrencezli/Logos.git"
+  },
+  "author": "terrence and crew",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/terrencezli/Logos/issues"
+  },
+  "homepage": "https://github.com/terrencezli/Logos#readme",
+  "dependencies": {
+  }
+}
