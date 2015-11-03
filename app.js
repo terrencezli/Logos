@@ -55,12 +55,12 @@ app.get('/linkedin/callback', function(req, res) {
 });
 
 app.get('/load-data/:companyName', function(req, res) {
+   theToken = "AQW_E4dZK8tSttBoW5dtUSOWR87ypE_anFmZYF9h8Asfy-QSM2sjY8nFKPAARBtnNETzcKWMoL_k2X-xmNMZxOeVCCfHuJSPhA7ekxYXTh98vOxWjCKGr1Q6XPcbWdM8jVO25QP7XYiciWZXk9krvhKctKmC-WO5Rb9c8qhj_pIrKghKpO8";
+
+   linkedin = Linkedin.init(theToken, {});
+   
    linkedin.companies_search.name(req.params.companyName, 1, function(err, company) {
-      name = company.companies.values[0].name;
-      desc = company.companies.values[0].description;
-      industry = company.companies.values[0].industries.values[0].name;
-      city = company.companies.values[0].locations.values[0].address.city;
-      websiteUrl = company.companies.values[0].websiteUrl;
+      companyData = company.companies.values[0];
 
       var url = 'mongodb://127.0.0.1:27017/pogomylogo';
       MongoClient.connect(url, function(err, db) {
@@ -73,8 +73,8 @@ app.get('/load-data/:companyName', function(req, res) {
 
             var collection = db.collection('companies-test');
     
-            var user1 = {name: name, desc: desc, industry: industry, city: city, websiteUrl: websiteUrl};
-            collection.insert(user1, function(err, result) {
+            //var user1 = {name: name, desc: desc, industry: industry, city: city, websiteUrl: websiteUrl};
+            collection.insert(companyData, function(err, result) {
                if(err) {
                   console.log(err);
                }
