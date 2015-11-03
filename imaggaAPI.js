@@ -1,9 +1,9 @@
 var unirest = require("unirest");
 
-var req = unirest("GET", "http://api.imagga.com/v1/tagging");
+var req = unirest("GET", "https://api.imagga.com/v1/tagging");
 
 req.query({
-  "url": "https://logo.clearbit.com/linkedin.com",
+  "url": "http://logo.clearbit.com/linkedin.com",
   "version": "2"
 });
 
