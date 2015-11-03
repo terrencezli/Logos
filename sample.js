@@ -3,15 +3,13 @@ var LinkedIn = require('./LinkedInAPI');
 var abc = function () {
 	var linkedIn = new LinkedIn();
 
-	linkedIn.getCompanies(118, 0, function (response) {
-			console.log(response);
+	linkedIn.getCompanies(118, 20, function (response) {
+		for (var i = 0; i < 20; i++) {
+			linkedIn.storeCompanies(response[i].name, function() {
+				console.log("stored");
+			});
+		}
 	});
-
-	// for (var start = 0; start <= 60; start+=20) {
-	// 	linkedIn.getCompanies(118, start, function (response) {
-	// 		console.log(response);
-	// 	});
-	// }
 }
 
 abc();

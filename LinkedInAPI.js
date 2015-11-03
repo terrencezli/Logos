@@ -21,7 +21,7 @@ LinkedInAPI.prototype.apiCall = function (options, cb) {
     request.get(options, function(error, response, body) {
     	if (response.statusCode == 200 && !error) {
 	    	var result = JSON.parse(body);
-	    	cb(result.companies);
+	    	cb(result.companies.values);
 	    }
     });
 }
@@ -37,8 +37,23 @@ LinkedInAPI.prototype.getCompanies = function (industryCode, start, cb) {
 			Authorization: 'Bearer AQWz3I0GKRXObUqpWPLoFGeHmq1ug_6snY8tNJkmpnhuZ08DQeA7zgIRRCLvV2yKrYNjRIPWlweg4j4WHYCgPN_zqo3DwnQpFcjubrvGCo8z5MAqoVm3Be1_I7Tg9C-jGvXTCEF7lNBgA5I-ZCSwMbYtd52BIQ0-TsU_3pcY1VIsZa0_Ugk'
 		}
 	}, function(response) {
-		//for (var i = 0; i < )
+		console.log(response)
 		cb(response);
+	});
+
+}
+
+/**
+ * Store companies into db
+ */
+LinkedInAPI.prototype.storeCompanies = function (company, cb) {
+	request.get({
+		method: 'GET',
+		url: 'http://162.243.144.203:3000/load-data/' + company
+	}, function(error, response, body) {
+		if (!error && response.statusCode == 200) {
+			cb();
+		}
 	});
 
 }
