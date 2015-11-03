@@ -54,8 +54,8 @@ app.get('/linkedin/callback', function(req, res) {
    });
 });
 
-app.get('/load-data', function(req, res) {
-   linkedin.companies_search.name('facebook', 1, function(err, company) {
+app.get('/load-data/:companyName', function(req, res) {
+   linkedin.companies_search.name(req.params.companyName, 1, function(err, company) {
       name = company.companies.values[0].name;
       desc = company.companies.values[0].description;
       industry = company.companies.values[0].industries.values[0].name;
