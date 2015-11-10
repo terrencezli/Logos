@@ -1,5 +1,14 @@
 'use strict';
 var request = require('request');
+var MongoClient = require('mongodb').MongoClient
+  , assert = require('assert')
+  , ObjectID = require('mongodb').ObjectID
+  , express = require('express')
+  , http = require('http')
+  , passport = require('passport')
+  , util = require('util')
+  , LinkedInStrategy = require('passport-linkedin').Strategy;
+var db;
 
 var APP_URL = 'https://api.linkedin.com/v1/company-search';
 
@@ -21,8 +30,11 @@ LinkedInAPI.prototype.apiCall = function (options, cb) {
     request.get(options, function(error, response, body) {
     	if (response.statusCode == 200 && !error) {
 	    	var result = JSON.parse(body);
-	    	console.log(result)
+	    	//console.log(result.companies.values)
 	    	cb(result.companies.values);
+	    }
+	    else {
+	    	//console.log(response);
 	    }
     });
 }
@@ -35,10 +47,10 @@ LinkedInAPI.prototype.getCompanies = function (industryCode, start, cb) {
 		method: 'GET',
 		url: ':(companies:(id,name,website-url,company-type,logo-url))?facet=industry,' + industryCode + '&start=' + start + '&count=20&format=json',
 		headers: {
-			Authorization: 'Bearer AQWz3I0GKRXObUqpWPLoFGeHmq1ug_6snY8tNJkmpnhuZ08DQeA7zgIRRCLvV2yKrYNjRIPWlweg4j4WHYCgPN_zqo3DwnQpFcjubrvGCo8z5MAqoVm3Be1_I7Tg9C-jGvXTCEF7lNBgA5I-ZCSwMbYtd52BIQ0-TsU_3pcY1VIsZa0_Ugk'
+			Authorization: 'Bearer AQUuamoh5szmzqJQ9-a6yZmXM6d3xWKbmpbsQ4gsGJlXheL1v0OxMUIHsRW2_AQjOkU0HVb-EffCPqsl300BcgqXPkTyj9l3O8nyLI0zlNHylTKJ4jJ07eFcNOrjA3kBeBzscAYaJyfJMjaL-7p46JaVVoR0Bp4E5i6-3Aut7wQkBhG2OFM'
 		}
 	}, function(response) {
-		//console.log(response)
+		//console.log(response);
 		cb(response);
 	});
 
@@ -47,16 +59,56 @@ LinkedInAPI.prototype.getCompanies = function (industryCode, start, cb) {
 /**
  * Store companies into db
  */
-LinkedInAPI.prototype.storeCompanies = function (companyID, cb) {
-	request.get({
-		method: 'GET',
-		url: 'http://162.243.144.203:3000/load-data/' + companyID
-	}, function(error, response, body) {
-		if (!error && response.statusCode == 200) {
-			cb();
+LinkedInAPI.prototype.storeCompanies = function (company, cb) {
+    var collection = db.collection('companies-test');
+    // prevent same id companies
+    collection.createIndex({"id": 1}, {unique: true});
+
+    collection.insert(company, function(err, result){
+       if(err) {
+          //console.log(err);
+          db.close();
+          //console.log(company);
+       }
+       else {
+       	cb();
+       }
+    });
+}
+
+var count = 0;
+var countCompanies = function () {
+	count+=20;
+
+	if(count == 20){
+		db.close();
+	}
+}
+
+var main = function () {
+	var linkedIn = new LinkedInAPI();
+
+	var url = 'mongodb://162.243.144.203:27017/pogomylogo';
+	
+	MongoClient.connect(url, function(err, database) {
+		db = database;
+		if(err) {
+			//console.log(err);
+		}
+		else {
+			// get companies
+			for (var i = 0; i < 20; i+=20) {
+				linkedIn.getCompanies(118, i, function (response) {
+					linkedIn.storeCompanies(response, function() {
+						console.log("Stored 20");
+						countCompanies();
+					});
+				});
+			}
 		}
 	});
-
 }
+
+main();
 
 module.exports = LinkedInAPI;
