@@ -21,6 +21,7 @@ LinkedInAPI.prototype.apiCall = function (options, cb) {
     request.get(options, function(error, response, body) {
     	if (response.statusCode == 200 && !error) {
 	    	var result = JSON.parse(body);
+	    	console.log(result)
 	    	cb(result.companies.values);
 	    }
     });
@@ -32,12 +33,12 @@ LinkedInAPI.prototype.apiCall = function (options, cb) {
 LinkedInAPI.prototype.getCompanies = function (industryCode, start, cb) {
 	var data = this.apiCall({
 		method: 'GET',
-		url: '?facet=industry,' + industryCode + '&start=' + start + '&count=20&format=json',
+		url: ':(companies:(id,name,website-url,company-type,logo-url))?facet=industry,' + industryCode + '&start=' + start + '&count=20&format=json',
 		headers: {
 			Authorization: 'Bearer AQWz3I0GKRXObUqpWPLoFGeHmq1ug_6snY8tNJkmpnhuZ08DQeA7zgIRRCLvV2yKrYNjRIPWlweg4j4WHYCgPN_zqo3DwnQpFcjubrvGCo8z5MAqoVm3Be1_I7Tg9C-jGvXTCEF7lNBgA5I-ZCSwMbYtd52BIQ0-TsU_3pcY1VIsZa0_Ugk'
 		}
 	}, function(response) {
-		console.log(response)
+		//console.log(response)
 		cb(response);
 	});
 
@@ -46,10 +47,10 @@ LinkedInAPI.prototype.getCompanies = function (industryCode, start, cb) {
 /**
  * Store companies into db
  */
-LinkedInAPI.prototype.storeCompanies = function (company, cb) {
+LinkedInAPI.prototype.storeCompanies = function (companyID, cb) {
 	request.get({
 		method: 'GET',
-		url: 'http://162.243.144.203:3000/load-data/' + company
+		url: 'http://162.243.144.203:3000/load-data/' + companyID
 	}, function(error, response, body) {
 		if (!error && response.statusCode == 200) {
 			cb();
