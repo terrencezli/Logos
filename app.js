@@ -54,18 +54,25 @@ app.get('/linkedin/callback', function(req, res) {
    });
 });
 
-app.get('/load-data/:companyName', function(req, res) {
+app.get('/load-data/:companyId', function(req, res) {
    theToken = "AQW_E4dZK8tSttBoW5dtUSOWR87ypE_anFmZYF9h8Asfy-QSM2sjY8nFKPAARBtnNETzcKWMoL_k2X-xmNMZxOeVCCfHuJSPhA7ekxYXTh98vOxWjCKGr1Q6XPcbWdM8jVO25QP7XYiciWZXk9krvhKctKmC-WO5Rb9c8qhj_pIrKghKpO8";
 
    linkedin = Linkedin.init(theToken, {});
    
-   linkedin.companies_search.name(req.params.companyName, 1, function(err, company) {
-      companyData = company.companies.values[0];
+   linkedin.companies.company(req.params.companyId, function(err, company) {
+      console.log(company);
+      if(company.errorCode == 0){
+         res.render('index', { user: req.user, token: theToken });
+	 console.log(company);
+      }
+      else {
+      companyData = company;
 
       var url = 'mongodb://127.0.0.1:27017/pogomylogo';
       MongoClient.connect(url, function(err, db) {
          if(err) {
             console.log(err);
+            res.render('error', {});
          }
          else {
             assert.equal(null, err);
@@ -74,9 +81,11 @@ app.get('/load-data/:companyName', function(req, res) {
             var collection = db.collection('companies-test');
     
             //var user1 = {name: name, desc: desc, industry: industry, city: city, websiteUrl: websiteUrl};
-            collection.insert(companyData, function(err, result) {
+            collection.save(companyData, function(err, result){
                if(err) {
                   console.log(err);
+                  console.log(companyData);
+                  res.render('error', {});
                }
                else {
                   res.render('index', { user: req.user, token: theToken });
@@ -85,6 +94,7 @@ app.get('/load-data/:companyName', function(req, res) {
             });
          }
       });
+      }
    });
 });
 
