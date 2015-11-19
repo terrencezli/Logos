@@ -1,10 +1,24 @@
-# Logos
+# **Logos**
 
 ## Synopsis
 
-This project is a program that accepts user input as command line
-arguments and returns most common characteristics of logos in the
-specified industry. 
+This project accepts user input as command line arguments and returns the most common characteristics of logos in the specified industry. [Host
+Repository](https://github.com/terrencezli/Logos); 
+
+## Sample Run
+
+node somefile.js industry-name
+
+For companies in this industry, the most common colors in logos: 
+1. colorA 
+2. colorB 
+3. colorC
+
+For companies in this industry, the most common keywords associated
+with their logos:
+1. Attribute1
+2. Attribute2
+3. Attribute3
 
 ## Motivation
 
@@ -17,7 +31,7 @@ creations; this may be used for research on logo analysis as well.
 ## Code Example
 
 var MongoClient = require('mongodb').MongoClient;
-
+ 
 Imagga.prototype.tag = function tag(url, callback) {
    MongoClient.connect(mongoURL, function(err, db) {
       if(err) {
