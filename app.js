@@ -54,12 +54,10 @@ app.get('/linkedin/callback', function(req, res) {
    });
 });
 
-app.get('/load-data/:companyId', function(req, res) {
+app.get('/load-data/:companyName', function(req, res) {
    theToken = "AQW_E4dZK8tSttBoW5dtUSOWR87ypE_anFmZYF9h8Asfy-QSM2sjY8nFKPAARBtnNETzcKWMoL_k2X-xmNMZxOeVCCfHuJSPhA7ekxYXTh98vOxWjCKGr1Q6XPcbWdM8jVO25QP7XYiciWZXk9krvhKctKmC-WO5Rb9c8qhj_pIrKghKpO8";
-
    linkedin = Linkedin.init(theToken, {});
-   
-   linkedin.companies.company(req.params.companyId, function(err, company) {
+   linkedin.companies_search.name(req.params.companyName, 1, function(err, company) {
       console.log(company);
       if(company.errorCode == 0){
          res.render('index', { user: req.user, token: theToken });
@@ -79,16 +77,16 @@ app.get('/load-data/:companyId', function(req, res) {
             console.log("Connected correctly to server.");
 
             var collection = db.collection('companies-test');
-    
-            //var user1 = {name: name, desc: desc, industry: industry, city: city, websiteUrl: websiteUrl};
-            collection.save(companyData, function(err, result){
+            var a = companyData.companies.values[0];
+            var user1 = {companyType: a.companyType, id: a.id, logoUrl: a.logoUrl, employeeCountRange: a.employeeCountRange, name: a.name, industry: a.industry, websiteUrl: a.websiteUrl};
+            collection.save(user1, function(err, result){
                if(err) {
                   console.log(err);
-                  console.log(companyData);
+                  console.log(user1);
                   res.render('error', {});
                }
                else {
-                  res.render('index', { user: req.user, token: theToken });
+                  res.render('company-added', {});
                }
                db.close();
             });
