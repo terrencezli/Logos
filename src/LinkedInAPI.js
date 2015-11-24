@@ -45,9 +45,9 @@ LinkedInAPI.prototype.apiCall = function (options, cb) {
 LinkedInAPI.prototype.getCompanies = function (industryCode, start, cb) {
 	var data = this.apiCall({
 		method: 'GET',
-		url: ':(companies:(id,name,website-url,company-type,logo-url))?facet=industry,' + industryCode + '&start=' + start + '&count=20&format=json',
+		url: ':(companies:(id,name,website-url,company-type,logo-url,employeeCountRange,industries))?facet=industry,' + industryCode + '&start=' + start + '&count=20&format=json',
 		headers: {
-			Authorization: 'Bearer AQUuamoh5szmzqJQ9-a6yZmXM6d3xWKbmpbsQ4gsGJlXheL1v0OxMUIHsRW2_AQjOkU0HVb-EffCPqsl300BcgqXPkTyj9l3O8nyLI0zlNHylTKJ4jJ07eFcNOrjA3kBeBzscAYaJyfJMjaL-7p46JaVVoR0Bp4E5i6-3Aut7wQkBhG2OFM'
+			Authorization: 'Bearer AQV2bRlp32_y1znkzUEGMAf3QUxcBFnT73A_8rhHGMta1ZxGY2-paZ8LPD4r6v17AP3nZX3dp56ScWbqI9gMaaQTxfjTOYznMh0H69gXL9Gt3Dj0na7lO2FakrZYVY6jFVqc4zVeUvHop8LfGsl6x2KYIQ5buM_jn9xjbZGO2aXpnqvsZf4'
 		}
 	}, function(response) {
 		//console.log(response);
@@ -61,17 +61,19 @@ LinkedInAPI.prototype.getCompanies = function (industryCode, start, cb) {
  */
 LinkedInAPI.prototype.storeCompanies = function (company, cb) {
     var collection = db.collection('companies-test');
+    
     // prevent same id companies
     collection.createIndex({"id": 1}, {unique: true});
 
+    //console.log(company)
     collection.insert(company, function(err, result){
        if(err) {
-          //console.log(err);
-          db.close();
-          //console.log(company);
+			//console.log(err);
+			db.close();
+			//console.log(company);
        }
        else {
-       	cb();
+			cb();
        }
     });
 }
@@ -100,7 +102,7 @@ var main = function () {
 			for (var i = 0; i < 20; i+=20) {
 				linkedIn.getCompanies(118, i, function (response) {
 					linkedIn.storeCompanies(response, function() {
-						console.log("Stored 20");
+						console.log("Stored " + count);
 						countCompanies();
 					});
 				});
