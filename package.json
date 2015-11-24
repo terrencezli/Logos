@@ -17,16 +17,16 @@
   },
   "homepage": "https://github.com/terrencezli/Logos#readme",
   "dependencies": {
-    "request": "^2.65.0",
-    "express": "~3.21.2",
+    "body-parser": "~1.14.1",
+    "cookie-parser": "~1.4.0",
     "ejs": ">= 0.0.0",
+    "express": "~3.21.2",
+    "express-session": "~1.11.3",
+    "method-override": "~2.3.5",
+    "mongodb": "^2.0.48",
+    "morgan": "~1.6.1",
     "passport": ">= 0.0.0",
     "passport-linkedin": ">= 0.0.0",
-    "cookie-parser": "~1.4.0",
-    "morgan": "~1.6.1",
-    "body-parser": "~1.14.1",
-    "method-override": "~2.3.5",
-    "express-session": "~1.11.3",
-    "mongodb": "~2.0.47"
+    "request": "^2.65.0"
   }
 }

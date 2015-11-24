@@ -1,11 +1,4 @@
-var MongoClient = require('mongodb').MongoClient
-  , assert = require('assert')
-  , ObjectID = require('mongodb').ObjectID
-  , express = require('express')
-  , http = require('http')
-  , passport = require('passport')
-  , util = require('util')
-  , LinkedInStrategy = require('passport-linkedin').Strategy;
+var linkedIn = require('./LinkedInAPI');
 
 var app = express();
 var theToken
@@ -242,15 +235,3 @@ app.get('/logout', function(req, res){
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
-
-
-// Simple route middleware to ensure user is authenticated.
-//   Use this route middleware on any resource that needs to be protected.  If
-//   the request is authenticated (typically via a persistent login session),
-//   the request will proceed.  Otherwise, the user will be redirected to the
-//   login page.
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login');
-}
-*/
