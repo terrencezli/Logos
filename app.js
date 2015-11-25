@@ -22,15 +22,14 @@ app.use(express.static(__dirname + '/public'));
 var Linkedin = require('node-linkedin')('75zynxm4k5tvxy', 'aLHiVsAkDOCWuGhu', 'http://162.243.144.203:3000/linkedin/callback');
 var linkedin;
 
-// Using a library like `expressjs` the module will
-// redirect for you simply by passing `res`.
+// authenticate
 app.get('/linkedin', function(req, res) {
    // This will ask for permisssions etc and redirect to callback url.
    var scope = ['r_basicprofile'];
    Linkedin.auth.authorize(res, scope);
 });
 
-// Again, `res` is optional, you could pass `code` as the first parameter
+// callback
 app.get('/linkedin/callback', function(req, res) {
    Linkedin.auth.getAccessToken(res, req.query.code, req.query.state, function(err, results) {
       if ( err )
@@ -47,6 +46,7 @@ app.get('/linkedin/callback', function(req, res) {
    });
 });
 
+// loadCompanyData
 app.get('/load-data/:companyName', function(req, res) {
    theToken = "AQW_E4dZK8tSttBoW5dtUSOWR87ypE_anFmZYF9h8Asfy-QSM2sjY8nFKPAARBtnNETzcKWMoL_k2X-xmNMZxOeVCCfHuJSPhA7ekxYXTh98vOxWjCKGr1Q6XPcbWdM8jVO25QP7XYiciWZXk9krvhKctKmC-WO5Rb9c8qhj_pIrKghKpO8";
    linkedin = Linkedin.init(theToken, {});
@@ -69,7 +69,7 @@ app.get('/load-data/:companyName', function(req, res) {
             assert.equal(null, err);
             console.log("Connected correctly to server.");
 
-            var collection = db.collection('companies-test');
+            var collection = db.collection('companies');
             var a = companyData.companies.values[0];
             var user1 = {companyType: a.companyType, id: a.id, logoUrl: a.logoUrl, employeeCountRange: a.employeeCountRange, name: a.name, industry: a.industry, websiteUrl: a.websiteUrl};
             collection.save(user1, function(err, result){
