@@ -10,6 +10,7 @@ var MongoClient = require('mongodb').MongoClient
   , util = require('util')
   , LinkedInStrategy = require('passport-linkedin').Strategy;
 var db;
+var url = 'mongodb://162.243.144.203:27017/pogomylogo';
 
 /**
  * Constructor for the linkedAPI
@@ -19,11 +20,37 @@ function correlateAPI() {
 }
 
 /**
+ * Method to get foreground and background
+ *
+ */
+var colorArray = function (items, arr) {
+	var colorArr = arr;
+
+	for (var j = 0; j < Object.keys(items).length; j++) {
+		//console.log(Object.keys(items)[j]);
+		var colorKey = Object.keys(items)[j];
+		var percentVal = items[colorKey];
+
+		if (typeof colorArr[colorKey] !== 'undefined') {
+			colorArr[colorKey] += percentVal;
+		}
+		else {
+			colorArr[colorKey] = percentVal;
+		}
+
+		//process.stdout.write("colorKey: " + colorKey + "percentVal: " + percentVal);
+	}
+
+	return colorArr;
+}
+
+/**
  * API to get color data
  */
 correlateAPI.prototype.getColorData = function (cb) {
-	var url = 'mongodb://162.243.144.203:27017/pogomylogo';
-	var colors = [];
+	var bg = [];
+	var fg = [];
+	var imageColor = [];
 
 	MongoClient.connect(url, function(err, database) {
 
@@ -37,22 +64,27 @@ correlateAPI.prototype.getColorData = function (cb) {
 				//console.log(items);
 
 				for (var i = 0; i < items.length; i++) {
-					for (var j = 0; j < Object.keys(items[i].bgColor).length; j++) {
-						//console.log(Object.keys(items[i].bgColor)[j]);
-						var colorKey = Object.keys(items[i].bgColor)[j];
-						var percentVal = items[i].bgColor[colorKey];
+					bg = colorArray(items[i].bgColor, bg);
 
-						if (typeof colors[colorKey] !== 'undefined') {
-							colors[colorKey] += percentVal;
+					fg = colorArray(items[i].fgColor, fg);
+
+					for (var j = 0; j < Object.keys(items[i].imageColor).length; j++) {
+						//console.log(Object.keys(items[i].bgColor)[j]);
+						var colorKey = Object.keys(items[i].imageColor)[j];
+						//var percentVal = items[i].imageColor[colorKey];
+
+						if (typeof imageColor[colorKey] !== 'undefined') {
+							imageColor[colorKey] += 1;
 						}
 						else {
-							colors[colorKey] = percentVal;
+							imageColor[colorKey] = 1;
 						}
 
 						//process.stdout.write("colorKey: " + colorKey + "percentVal: " + percentVal);
 					}
 				}
-				cb(colors);
+
+				cb(bg, fg, imageColor);
 
 				db.close();
 			});
@@ -64,8 +96,8 @@ correlateAPI.prototype.getColorData = function (cb) {
  * API to get tag data
  */
 correlateAPI.prototype.getTagData = function (cb) {
-	var url = 'mongodb://162.243.144.203:27017/pogomylogo';
-	
+	var tags = [];
+
 	MongoClient.connect(url, function(err, database) {
 		db = database;
 		if(err) {
@@ -74,7 +106,26 @@ correlateAPI.prototype.getTagData = function (cb) {
 		else {
 			// get all the collection
 			db.collection('logos-tag').find().toArray(function(err, items) {
-				console.log(items);
+				//console.log(items.length);
+
+				for (var i = 0; i < items.length; i++) {
+					for (var j = 0; j < Object.keys(items[i].tag).length; j++) {
+						//console.log(items[i].tag[j])
+						var tagName = items[i].tag[j].tag;
+						var confidenceVal = items[i].tag[j].confidence;
+
+						if (typeof tags[tagName] !== 'undefined') {
+							tags[tagName] += confidenceVal;
+						}
+						else {
+							tags[tagName] = confidenceVal;
+						}
+
+						//process.stdout.write("colorKey: " + colorKey + "percentVal: " + percentVal);
+					}
+				}
+
+				cb(tags);
 
 				db.close();
 			});
@@ -83,10 +134,14 @@ correlateAPI.prototype.getTagData = function (cb) {
 }
 
 var correlate = new correlateAPI();
-var lol = correlate.getColorData(function(colors) {
-	console.log(colors);
+correlate.getColorData(function(bg, fg, imageColor) {
+	console.log(bg);
+	// console.log(fg);
+	// console.log(imageColor);
 });
-
+// correlate.getTagData(function(tags) {
+// 	console.log(tags.sort());
+// });
 
 
 module.exports = correlateAPI;

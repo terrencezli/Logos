@@ -60,7 +60,7 @@ LinkedInAPI.prototype.getCompanies = function (industryCode, start, cb) {
  * Store companies into db
  */
 LinkedInAPI.prototype.storeCompanies = function (company, cb) {
-    var collection = db.collection('companies-test');
+    var collection = db.collection('companies');
     
     // prevent same id companies
     collection.createIndex({"id": 1}, {unique: true});
