@@ -8,6 +8,7 @@ var app        = express();
 var morgan     = require('morgan');
 
 var MongoClient = require('mongodb').MongoClient;
+var correlate = require('../src/correlateAPI');
 
 // configure app
 app.use(morgan('dev')); // log requests to the console
@@ -47,15 +48,12 @@ router.route('/suggestion')
       
       industry = req.params.industry;
       companySize = req.params.companySize;
+      coType = req.params.coType;
 
+      var resultData = correlate.getCompanyData(req.params.coType, req.params.industry, req.params.companySize);
       // do some processing, create the suggestion object
-      suggestion = {color: "#FF0000", numColors: 3, tags: ["sun", "bright", "ocean"]};
-      res.json({
-         color: suggestion.color,
-         numColors: suggestion.numColors,
-         tags: suggestion.tags
-
-      });
+      //suggestion = {color: "#FF0000", numColors: 3, tags: ["sun", "bright", "ocean"]};
+      res.json(resultData);
 
       
    });
