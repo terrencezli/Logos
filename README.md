@@ -39,9 +39,9 @@ In this case, a company size of 51-400 employees within the
 
 **Having sun, bright, and ocean are the most common logo feature occurences**
 
-You can also find tags that are associated with a given tag if you
+You can also find tags that are associated with a given tag of water if you
 please. By running:
-**http://162.243.144.203:8080/api/tag/your_own_tag_here**
+**http://162.243.144.203:8080/api/tag/water**
 
 A list of tags will be returned.
 
