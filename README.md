@@ -51,6 +51,49 @@ A list of tags will be returned. The list shows that the most common
 occurences and best matches with the water tag are the tags "sky",
 "clouds", "signboard", and "worm".
 
+Here is a sample return from our tagging feature:
+
+{ 
+  TopBGColor: [ 'white', 'midnight', 'mystic' ],
+  TopFGColor: [ 'marine', 'dove', 'navy blue' ],
+  TopImageColor: [ 'white', 'marine', 'platinum', 'navy blue', 'graphite' ],
+  TopTags:
+         [
+	   'sign',
+	   'digital clock',
+	   'symbol',
+           'design',
+	   'clock',
+	   'icon',
+	   'business',
+	   'graphic',
+	   '3d',
+	   'web',
+	   'timepiece',
+	   'color',
+	   'element',
+	   'art',
+	   'headline',
+	   'text',
+	   'light',
+	   'black',
+	   'reflection',
+	   'internet',
+	   'information',
+	   'modern',
+	   'finance',
+	   'home',
+	   'company',
+	   'style',
+	   'word',
+	   'technology',
+	   'button',
+	   'shiny',
+	   'logo',
+	   'colorful',
+	   'computer',																				                'creative'
+	]
+}
 
 ## Motivation
 
