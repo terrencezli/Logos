@@ -106,60 +106,62 @@ var color = function(db, doc, saveFinished, cb) {
 
 		var data = res.body;
 		//console.log(data);
-		var bgColor = data['results'][0]['info']['background_colors'];
-		//console.log('bgColor ' + JSON.stringify(bgColor));
-		var fgColor = data['results'][0]['info']['foreground_colors'];
-		//console.log('fgColor ' + JSON.stringify(fgColor));
-		var imageColor = data['results'][0]['info']['image_colors'];
-		//console.log('imageColor ' + JSON.stringify(imageColor));
+		if(data['results'][0] != undefined) {
+			var bgColor = data['results'][0]['info']['background_colors'];
+			//console.log('bgColor ' + JSON.stringify(bgColor));
+			var fgColor = data['results'][0]['info']['foreground_colors'];
+			//console.log('fgColor ' + JSON.stringify(fgColor));
+			var imageColor = data['results'][0]['info']['image_colors'];
+			//console.log('imageColor ' + JSON.stringify(imageColor));
 
 
-		//background
-		var bgListColors = {};
-		for(var i = 0; i < bgColor.length; i++) {
-			var newColor = bgColor[i]["closest_palette_color"];
-			if(bgListColors[newColor] === undefined) {
-				bgListColors[newColor] = bgColor[i]["percentage"];
+			//background
+			var bgListColors = {};
+			for(var i = 0; i < bgColor.length; i++) {
+				var newColor = bgColor[i]["closest_palette_color"];
+				if(bgListColors[newColor] === undefined) {
+					bgListColors[newColor] = bgColor[i]["percentage"];
+				}
+				else {
+					bgListColors[newColor] += bgColor[i]["percentage"];
+				}
 			}
-			else {
-				bgListColors[newColor] += bgColor[i]["percentage"];
+
+			//foreground
+			var fgListColors = {};
+			for(var i = 0; i < fgColor.length; i++) {
+				var newColor = fgColor[i]["closest_palette_color"];
+				if(fgListColors[newColor] === undefined) {
+					fgListColors[newColor] = fgColor[i]["percentage"];
+				}
+				else {
+					fgListColors[newColor] += fgColor[i]["percentage"];
+				}
 			}
+
+			//image
+			var imageListColors = {};
+			for(var i = 0; i < imageColor.length; i++) {
+				var newColor = imageColor[i]["closest_palette_color"];
+				if(imageListColors[newColor] === undefined) {
+					imageListColors[newColor] = imageColor[i]["percentage"];
+				}
+				else {
+					imageListColors[newColor] += imageColor[i]["percentage"];
+				}
+			}
+
+			var temp = {
+				"name": doc.name,
+				"logoUrl": doc.logoUrl,
+				"bgColor": bgListColors,
+				"fgColor": fgListColors,
+				"imageColor": imageListColors
+			};
+
+			pause(3000);
+			cb(db, temp, saveFinished);
 		}
-
-		//foreground
-		var fgListColors = {};
-		for(var i = 0; i < fgColor.length; i++) {
-			var newColor = fgColor[i]["closest_palette_color"];
-			if(fgListColors[newColor] === undefined) {
-				fgListColors[newColor] = fgColor[i]["percentage"];
-			}
-			else {
-				fgListColors[newColor] += fgColor[i]["percentage"];
-			}
-		}
-
-		//image
-		var imageListColors = {};
-		for(var i = 0; i < imageColor.length; i++) {
-			var newColor = imageColor[i]["closest_palette_color"];
-			if(imageListColors[newColor] === undefined) {
-				imageListColors[newColor] = imageColor[i]["percentage"];
-			}
-			else {
-				imageListColors[newColor] += imageColor[i]["percentage"];
-			}
-		}
-
-		var temp = {
-			"name": doc.name,
-			"logoUrl": doc.logoUrl,
-			"bgColor": bgListColors,
-			"fgColor": fgListColors,
-			"imageColor": imageListColors
-		};
-
-		pause(3000);
-		cb(db, temp, saveFinished);
 	});
 };
 
@@ -221,68 +223,70 @@ var userColor = function(collection, db, name, url, cb) {
 	colorReq.end(function (res) {
 		if (res.error) {
 			console.log("Skipped color");
-			//console.log(res);
+			console.log(res);
 			//throw new Error(res.error);
-			db.close();
+			//db.close();
 			return;
 		}
 
 		var data = res.body;
 		//console.log(data);
-		var bgColor = data['results'][0]['info']['background_colors'];
-		//console.log('bgColor ' + JSON.stringify(bgColor));
-		var fgColor = data['results'][0]['info']['foreground_colors'];
-		//console.log('fgColor ' + JSON.stringify(fgColor));
-		var imageColor = data['results'][0]['info']['image_colors'];
-		//console.log('imageColor ' + JSON.stringify(imageColor));
+		if(data['results'][0] != undefined) {
+			var bgColor = data['results'][0]['info']['background_colors'];
+			//console.log('bgColor ' + JSON.stringify(bgColor));
+			var fgColor = data['results'][0]['info']['foreground_colors'];
+			//console.log('fgColor ' + JSON.stringify(fgColor));
+			var imageColor = data['results'][0]['info']['image_colors'];
+			//console.log('imageColor ' + JSON.stringify(imageColor));
 
 
-		//background
-		var bgListColors = {};
-		for(var i = 0; i < bgColor.length; i++) {
-			var newColor = bgColor[i]["closest_palette_color"];
-			if(bgListColors[newColor] === undefined) {
-				bgListColors[newColor] = bgColor[i]["percentage"];
+			//background
+			var bgListColors = {};
+			for(var i = 0; i < bgColor.length; i++) {
+				var newColor = bgColor[i]["closest_palette_color"];
+				if(bgListColors[newColor] === undefined) {
+					bgListColors[newColor] = bgColor[i]["percentage"];
+				}
+				else {
+					bgListColors[newColor] += bgColor[i]["percentage"];
+				}
 			}
-			else {
-				bgListColors[newColor] += bgColor[i]["percentage"];
+
+			//foreground
+			var fgListColors = {};
+			for(var i = 0; i < fgColor.length; i++) {
+				var newColor = fgColor[i]["closest_palette_color"];
+				if(fgListColors[newColor] === undefined) {
+					fgListColors[newColor] = fgColor[i]["percentage"];
+				}
+				else {
+					fgListColors[newColor] += fgColor[i]["percentage"];
+				}
 			}
+
+			//image
+			var imageListColors = {};
+			for(var i = 0; i < imageColor.length; i++) {
+				var newColor = imageColor[i]["closest_palette_color"];
+				if(imageListColors[newColor] === undefined) {
+					imageListColors[newColor] = imageColor[i]["percentage"];
+				}
+				else {
+					imageListColors[newColor] += imageColor[i]["percentage"];
+				}
+			}
+
+			var temp = {
+				"name": name,
+				"logoUrl": url,
+				"bgColor": bgListColors,
+				"fgColor": fgListColors,
+				"imageColor": imageListColors
+			};
+
+			pause(3000);
+			cb(collection, db, temp);
 		}
-
-		//foreground
-		var fgListColors = {};
-		for(var i = 0; i < fgColor.length; i++) {
-			var newColor = fgColor[i]["closest_palette_color"];
-			if(fgListColors[newColor] === undefined) {
-				fgListColors[newColor] = fgColor[i]["percentage"];
-			}
-			else {
-				fgListColors[newColor] += fgColor[i]["percentage"];
-			}
-		}
-
-		//image
-		var imageListColors = {};
-		for(var i = 0; i < imageColor.length; i++) {
-			var newColor = imageColor[i]["closest_palette_color"];
-			if(imageListColors[newColor] === undefined) {
-				imageListColors[newColor] = imageColor[i]["percentage"];
-			}
-			else {
-				imageListColors[newColor] += imageColor[i]["percentage"];
-			}
-		}
-
-		var temp = {
-			"name": name,
-			"logoUrl": url,
-			"bgColor": bgListColors,
-			"fgColor": fgListColors,
-			"imageColor": imageListColors
-		};
-
-		pause(3000);
-		cb(collection, db, temp);
 	});
 };
 
@@ -462,28 +466,17 @@ var testUserTag = function(collection, name, url) {
 	});
 }
 
-var testUserColor = function(collection, name, url) {
-	MongoClient.connect('mongodb://pogomylogo:pogo1234pogo@162.243.144.203:27017/pogomylogo', function(err, db) {
-			if(err) {
-			console.log(err);
-		}
-		else {
-			assert.equal(null, err);
-			console.log("Connected correctly to server.");
-
-			userColor(collection, db, name, url, function(collection, db, data) {
-				insertColor(collection, db, data, function() {
-					db.close();
-				});
-			});
-
-		}
+var testUserColor = function(db, collection, name, url) {
+	userColor(collection, db, name, url, function(collection, db, data) {
+		insertColor(collection, db, data, function() {
+		});
 	});
+
 }
 
 var test = new Imagga();
-test.findURLTag();
-test.findURLColor();
+//test.findURLTag();
+//test.findURLColor();
 //test.findNumColor({"name": "Palo Alto Networks"});
 //testUserTag("aaron", "https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAVaAAAAJDgyN2I3NjlhLTkwYjUtNDQxOS1iZTE5LWY0YzhkOTIyZmRkYw.png");
 //testUserColor("terrence", "https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAVaAAAAJDgyN2I3NjlhLTkwYjUtNDQxOS1iZTE5LWY0YzhkOTIyZmRkYw.png");
@@ -491,4 +484,4 @@ test.findURLColor();
 //module.exports.imagga = Imagga;
 
 module.exports.tag = testUserTag;
-module.exports.color = testUserColor;
+module.exports.color1 = testUserColor;

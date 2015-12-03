@@ -9,6 +9,9 @@ var MongoClient = require('mongodb').MongoClient
   , passport = require('passport')
   , util = require('util')
   , LinkedInStrategy = require('passport-linkedin').Strategy;
+var imagga = require('./imaggaDriver');
+
+
 var db;
 var url = 'mongodb://162.243.144.203:27017/pogomylogo';
 
@@ -68,12 +71,14 @@ correlateAPI.prototype.getCompanyData = function (companyType, industries, emplo
 
 				// start filtering
 				for (var i = 0; i < items.length; i++) {
+
 					if (industries && items[i].industries != null) {
 						var ind = items[i].industries.values;
 						
 						for (var key in ind) {
-							if (ind.hasOwnProperty(key) && ind[key].code == industries)
+							if (ind.hasOwnProperty(key) && ind[key].code == industries) {
 								validInd = true;
+							}
 						}
 					}
 
@@ -194,7 +199,26 @@ correlateAPI.prototype.getTagData = function (cb) {
 
 var correlate = new correlateAPI();
 correlate.getCompanyData("Privately Held", 118, "51-200", function(collection) {
-	console.log(collection);
+	//console.log(collection);
+
+	MongoClient.connect(url, function(err, database) {
+		db = database;
+		if(err) {
+			console.log(err);
+		}
+		else {
+			for (var i = 0; i < collection.length; i++) {
+				imagga.color1(database, 'logos-color', collection[i].name, collection[i].logoUrl);
+			}
+		}
+	});
+
+	// for (var company in collection) {
+	// 	if (collection[company].logoUrl != null) {
+	// 		// console.log(collection[company].employeeCountRange)
+			//imagga.color('logos-color', collection[0].name, collection[0].logoUrl);
+	// 	}
+	// }
 });
 // correlate.getColorData(function(bg, fg, imageColor) {
 // 	console.log(bg);
