@@ -296,7 +296,7 @@ Imagga.prototype.findURLTag = function findURLTag() {
 			assert.equal(null, err);
 			console.log("Connected correctly to server.");
 
-			var cursor = db.collection('companies-test').find();
+			var cursor = db.collection('companies').find();
 			cursor.count(function(err,count) {
 
 				var savesPending = count;
@@ -320,7 +320,7 @@ Imagga.prototype.findURLTag = function findURLTag() {
 				cursor.each(function (err, doc) {
  					if (doc != null) {
 						tag(db, doc, saveFinished, function(db, temp, saveFinished) {
-							insertTag(db, temp, saveFinished);
+							insertTag("logos-tag-db", db, temp, saveFinished);
 						});
 					}
 				});
@@ -338,7 +338,7 @@ Imagga.prototype.findURLColor = function findURLColor() {
 			assert.equal(null, err);
 			console.log("Connected correctly to server.");
 
-			var cursor = db.collection('companies-test').find();
+			var cursor = db.collection('companies').find();
 			cursor.count(function(err,count) {
 
 				var savesPending = count;
@@ -359,7 +359,7 @@ Imagga.prototype.findURLColor = function findURLColor() {
 				cursor.each(function (err, doc) {
  					if (doc != null) {
 						color(db, doc, saveFinished, function(db, temp, saveFinished) {
-							insertColor(db, temp, saveFinished);
+							insertColor("logos-color-db", db, temp, saveFinished);
 						});
 					}
 				});
@@ -482,8 +482,8 @@ var testUserColor = function(collection, name, url) {
 }
 
 var test = new Imagga();
-//test.findURLTag();
-//test.findURLColor();
+test.findURLTag();
+test.findURLColor();
 //test.findNumColor({"name": "Palo Alto Networks"});
 //testUserTag("aaron", "https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAVaAAAAJDgyN2I3NjlhLTkwYjUtNDQxOS1iZTE5LWY0YzhkOTIyZmRkYw.png");
 //testUserColor("terrence", "https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAVaAAAAJDgyN2I3NjlhLTkwYjUtNDQxOS1iZTE5LWY0YzhkOTIyZmRkYw.png");
