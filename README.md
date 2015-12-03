@@ -34,10 +34,13 @@ industry (28) with an employee count of 51-400*
 
 The returned values are keywords and their associated confidence
 for their relevance within companies that fit the entered parameters.
+Along with the most common color and  number of colors within the
+logos analyzed.
 In this case, a company size of 51-400 employees within the
 "Entertainment" industry.
 
-**Having sun, bright, and ocean are the most common logo feature occurences**
+**Having sun, bright, and ocean are the most common logo feature occurences, with 
+3 colors and the most common color of #FF0000**
 
 You can also find tags that are associated with a given tag of water if you
 please. By running:
@@ -45,7 +48,7 @@ please. By running:
 
 A list of tags will be returned. The list shows that the most common
 occurences and best matches with the water tag are the tags "sky",
-"clouds" and "worm".
+"clouds", "signboard", and "worm".
 
 
 ## Motivation
