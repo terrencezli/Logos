@@ -51,6 +51,7 @@ var colorArray = function (items, arr) {
 correlateAPI.prototype.getCompanyData = function (companyType, industries, employeeCountRange, cb) {
 	MongoClient.connect(url, function(err, database) {
 		var filteredCompany = [];
+		var validInd = false;
 
 		db = database;
 		if(err) {
@@ -67,22 +68,29 @@ correlateAPI.prototype.getCompanyData = function (companyType, industries, emplo
 
 				// start filtering
 				for (var i = 0; i < items.length; i++) {
-					// companyType is privately held public or non profit
-					if (!(items[i].companyType != null && 
-						items[i].companyType.name == companyType)) {
-						criteria = false;
-					}
-
-					if (criteria &&
-						items[i].industries != null &&
-						items[i].industries.values.name == industries) {
+					if (industries && items[i].industries != null) {
+						var ind = items[i].industries.values;
 						
+						for (var key in ind) {
+							if (ind.hasOwnProperty(key) && ind[key].code == industries)
+								validInd = true;
+						}
 					}
 
-					if (criteria) {
+
+					// companyType is privately held public or non profit
+					if ((items[i].companyType != null && 
+							items[i].companyType.name == companyType) &&
+						validInd &&
+						(items[i].employeeCountRange != null &&
+							items[i].employeeCountRange.name == employeeCountRange)) {
 						filteredCompany.push(items[i]);
 					}
 				}
+
+				cb(filteredCompany);
+
+				db.close();
 			});
 		}
 
@@ -185,8 +193,8 @@ correlateAPI.prototype.getTagData = function (cb) {
 }
 
 var correlate = new correlateAPI();
-correlate.getCompanyData("Privately Held", "Internet", "51-200", function() {
-
+correlate.getCompanyData("Privately Held", 118, "51-200", function(collection) {
+	console.log(collection);
 });
 // correlate.getColorData(function(bg, fg, imageColor) {
 // 	console.log(bg);
