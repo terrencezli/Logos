@@ -39,6 +39,7 @@ executing*
 var MongoClient = require('mongodb').MongoClient;
  
 Imagga.prototype.tag = function tag(url, callback) {
+   
    MongoClient.connect(mongoURL, function(err, db) {
       
       if (err) {
@@ -67,9 +68,13 @@ Imagga.prototype.tag = function tag(url, callback) {
    });
 
    tagReq.end(function (res) {
+      
       if (res.error) throw new Error(res.error);
+      
       var data = res.body;
+      
       var tagsdata = data['results'][0]['tags'];
+      
       for (var i = 0; i < tagsdata.length; i++) {
          //console.log(tagsdata[i]['tag']);
       }
