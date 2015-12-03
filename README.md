@@ -8,13 +8,9 @@ Repository](https://github.com/terrencezli/Logos).
 
 **List of accepted industries**
 
-41   -   Banking
-
 118  -   Computer Network & Security
 
 28   -   Entertainment
-
-32   -   Restaurants
 
 27   -   Retail
 
@@ -27,17 +23,21 @@ and size.
 *Here is a sample run looking up companies within the entertainment
 industry (28) with an employee count of 51-400*
 
-162.243.144.203:8080/api/tag/icon?industry=28&companySize=51-400
+162.243.144.203:8080/api/suggestion?industry=28&companySize=51-400
 
-{}
+{
+   "color":"#FF0000",
+   "numColors":3,
+   "tags": ["sun", "bright", "ocean"]
+}
 
 
 The returned values are keywords and their associated confidence
 for their relevance within companies that fit the entered parameters.
 In this case, a company size of 51-400 employees within the
-"Alternative Medicine" industry.
+"Entertainment" industry.
 
-**Having 1, 2, and 3 are the most common occurences**
+**Having sun, bright, and ocean are the most common logo feature occurences**
 
 ## Motivation
 
