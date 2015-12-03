@@ -18,7 +18,7 @@ Repository](https://github.com/terrencezli/Logos).
 In your browser, enter the following url with your own parameters for industry
 and size.
 
-**162.243.144.203:8080/api/tag/icon**
+**162.243.144.203:8080/api/suggestion/**
 
 *Here is a sample run looking up companies within the entertainment
 industry (28) with an employee count of 51-400*
