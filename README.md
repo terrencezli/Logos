@@ -10,13 +10,13 @@ Repository](https://github.com/terrencezli/Logos).
 
 **node somefile.js industry-name**
 
-For companies in this industry, the most common colors in logos... 
+For companies in the "industry-name" industry, the most common colors in logos... 
 
-1. colorA 
-2. colorB 
+1. colorA
+2. colorB
 3. colorC
 
-For companies in this industry, the most common keywords associated
+For companies in the "industry-name" industry, the most common keywords associated
 with their logos...
 
 1. Attribute1
