@@ -82,7 +82,7 @@ var count = 0;
 var countCompanies = function () {
 	count+=20;
 
-	if(count == 20){
+	if(count == 600){
 		db.close();
 	}
 }
@@ -99,7 +99,7 @@ var main = function () {
 		}
 		else {
 			// get companies
-			for (var i = 0; i < 20; i+=20) {
+			for (var i = 0; i < 600; i+=20) {
 				linkedIn.getCompanies(118, i, function (response) {
 					linkedIn.storeCompanies(response, function() {
 						console.log("Stored " + count);
