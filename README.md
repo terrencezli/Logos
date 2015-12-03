@@ -7,11 +7,11 @@ most common characteristics of logos in the specified industry. [Host
 Repository](https://github.com/terrencezli/Logos).
 
 **List of accepted industries**
-41   -   **Banking**
-118  -   **Computer Network & Security**
-28   -   **Entertainment**
-32   -   **Restaurants**
-27   -   **Retail**
+1. 41   -   **Banking**
+2. 118  -   **Computer Network & Security**
+3. 28   -   **Entertainment**
+4. 32   -   **Restaurants**
+5. 27   -   **Retail**
 
 ## Sample Run
 In your browser, enter the url with your own parameters for industry
