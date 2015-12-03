@@ -6,21 +6,23 @@ This project accepts user input as command line arguments and returns the
 most common characteristics of logos in the specified industry. [Host
 Repository](https://github.com/terrencezli/Logos).
 
-Here is the list of the industry codes that is used with our program.
-It is necessary to match spelling and capitalization for this program
-to work. [List of
-Codes](https://developer.linkedin.com/docs/reference/industry-codes).
+**List of accepted industries**
+41   -   **Banking**
+118  -   **Computer Network & Security**
+28   -   **Entertainment**
+32   -   **Restaurants**
+27   -   **Retail**
 
-## **Sample Run**
+## Sample Run
 In your browser, enter the url with your own parameters for industry
 and size.
 
 **162.243.144.203:8080/api/tag/icon**
 
-*Here is a sample run looking up companies within the industry 125
-(Alternative Medicine) and a employee count of 201-300*
+*Here is a sample run looking up companies within the entertainment
+industry (28) with an employee count of 50-400*
 
-162.243.144.203:8080/api/tag/icon?industry=125&companySize=201-300
+162.243.144.203:8080/api/tag/icon?industry=125&companySize=50-400
 
 { 
    "icon":21.05625040783054,
@@ -35,6 +37,7 @@ and size.
    "clock":27.651187510914877,
    "keyboard":22.588365463437224
 }
+
 
 The returned values are keywords and their associated confidence
 for their relevance within companies that fit the entered parameters.
@@ -107,4 +110,13 @@ Imagga.prototype.tag = function tag(url, callback) {
 
 Aaron Pramana, Kevin Costello, Terrence Li, Timothy Chu
 
+##Future Versions
 
+Here is the list of all the industry codes that LinkedIn offers. In
+future implementations we will add more industries to be supported.
+The only limitation as to why we are limiting industries is the size
+of our database.
+
+It is/will be necessary to match spelling and capitalization for this program
+to work. [List of
+Codes](https://developer.linkedin.com/docs/reference/industry-codes).
