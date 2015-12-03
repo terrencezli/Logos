@@ -443,8 +443,8 @@ MongoClient.connect(mongoURL, function(err, db) {
    });
 }
 
-var testUserTag = function(name, url) {
-	MongoClient.connect(mongoURL, function(err, db) {
+var testUserTag = function(collection, name, url) {
+	MongoClient.connect('mongodb://pogomylogo:pogo1234pogo@162.243.144.203:27017/pogomylogo', function(err, db) {
 		if(err) {
 			console.log(err);
 		}
@@ -462,8 +462,8 @@ var testUserTag = function(name, url) {
 	});
 }
 
-var testUserColor = function(name, url) {
-	MongoClient.connect(mongoURL, function(err, db) {
+var testUserColor = function(collection, name, url) {
+	MongoClient.connect('mongodb://pogomylogo:pogo1234pogo@162.243.144.203:27017/pogomylogo', function(err, db) {
 			if(err) {
 			console.log(err);
 		}
@@ -485,10 +485,10 @@ var test = new Imagga();
 //test.findURLTag();
 //test.findURLColor();
 //test.findNumColor({"name": "Palo Alto Networks"});
-//testUserTag("aaron", "https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAVaAAAAJDgyN2I3NjlhLTkwYjUtNDQxOS1iZTE5LWY0YzhkOTIyZmRkYw.png");
+testUserTag("aaron", "https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAVaAAAAJDgyN2I3NjlhLTkwYjUtNDQxOS1iZTE5LWY0YzhkOTIyZmRkYw.png");
 //testUserColor("terrence", "https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAVaAAAAJDgyN2I3NjlhLTkwYjUtNDQxOS1iZTE5LWY0YzhkOTIyZmRkYw.png");
 
 //module.exports.imagga = Imagga;
 
-//module.exports.tag = testUserTag;
-//module.exports.color = testUserColor;
+module.exports.tag = testUserTag;
+module.exports.color = testUserColor;
