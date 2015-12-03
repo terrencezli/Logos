@@ -169,47 +169,52 @@ correlateAPI.prototype.getTagData = function (items, cb) {
 }
 
 var correlate = new correlateAPI();
-correlate.getCompanyData("Privately Held", 118, "51-200", function(companies) {
-	//console.log(collection.length);
+correlateAPI.prototype.responseVal = function (companyType, industry, companySize) {
 	var colorsToDB = [];
 	var tagsToDB = [];
 
-	MongoClient.connect(url, function(err, database) {
-		db = database;
-		if(err) {
-			console.log(err);
-		}
-		else {
-			db.collection('logos-color-db').find().toArray(function(err, items) {
-				for (var i = 0; i < items.length; i++) {
-					if (items != null && companies.indexOf(items[i].name) > -1) {
-						colorsToDB.push(items[i]);
+	correlate.getCompanyData(companyType, industry, companySize, function(companies) {
+		MongoClient.connect(url, function(err, database) {
+			db = database;
+			if(err) {
+				console.log(err);
+			}
+			else {
+				db.collection('logos-color-db').find().toArray(function(err, items) {
+					for (var i = 0; i < items.length; i++) {
+						if (items != null && companies.indexOf(items[i].name) > -1) {
+							colorsToDB.push(items[i]);
+						}
 					}
-				}
 
-				correlate.getColorData(colorsToDB, function(bg, fg, imageColor) {
-					console.log("Top Background colors: " + bg);
-					console.log("Top Foreground colors: " + fg);
-					console.log("Top Image colors: " + imageColor);
-				});
-			});	
+					correlate.getColorData(colorsToDB, function(bg, fg, imageColor) {
+						// console.log("Top Background colors: " + bg);
+						// console.log("Top Foreground colors: " + fg);
+						// console.log("Top Image colors: " + imageColor);
 
-			db.collection('logos-tag-db').find().toArray(function(err, items) {
-				for (var i = 0; i < items.length; i++) {
-					if (items != null && companies.indexOf(items[i].name) > -1) {
-						tagsToDB.push(items[i]);
-					}
-				}
+						db.collection('logos-tag-db').find().toArray(function(err, items) {
+							for (var i = 0; i < items.length; i++) {
+								if (items != null && companies.indexOf(items[i].name) > -1) {
+									tagsToDB.push(items[i]);
+								}
+							}
 
-				correlate.getTagData(tagsToDB, function(tags) {
-					console.log("Top tags: " + tags);
-					db.close();
-				});
-			});
-		}
+							correlate.getTagData(tagsToDB, function(tags) {
+								// console.log("Top tags: " + tags);
+								var re = {TopBGColor: bg, TopFGColor: fg, TopImageColor: imageColor, TopTags: tags};
+								console.log(re);
+								db.close();
+								return re;
+							});
+						});
+					});
+				});	
+			}
+		});
 	});
+}
 
-});
+correlate.responseVal("Privately Held", 118, "51-200");
 // correlate.getColorData(function(bg, fg, imageColor) {
 // 	console.log(bg);
 // 	console.log(fg);
