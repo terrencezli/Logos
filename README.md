@@ -113,7 +113,7 @@ Imagga.prototype.tag = function tag(url, callback) {
 
 ##Future Versions
 
-[Here](https://developer.linkedin.com/docs/reference/industry-codes).
+[Here](https://developer.linkedin.com/docs/reference/industry-codes)
 is the list of all the industry codes that LinkedIn offers. In
 future implementations we will add more industries to be supported.
 The only limitation as to why we are limiting industries is the size
