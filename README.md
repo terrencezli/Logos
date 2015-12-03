@@ -19,7 +19,7 @@ Repository](https://github.com/terrencezli/Logos).
 27   -   Retail
 
 ## Sample Run
-In your browser, enter the url with your own parameters for industry
+In your browser, enter the following url with your own parameters for industry
 and size.
 
 **162.243.144.203:8080/api/tag/icon**
