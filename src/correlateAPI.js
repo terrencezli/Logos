@@ -45,6 +45,51 @@ var colorArray = function (items, arr) {
 }
 
 /**
+ * Parameters for company search
+ */
+
+correlateAPI.prototype.getCompanyData = function (companyType, industries, employeeCountRange, cb) {
+	MongoClient.connect(url, function(err, database) {
+		var filteredCompany = [];
+
+		db = database;
+		if(err) {
+			console.log(err);
+		}
+		else {
+			// get all the collection
+			db.collection('companies').find().toArray(function(err, items) {
+				if (err) {
+					console.log(err)
+				}
+
+				//console.log(items);
+
+				// start filtering
+				for (var i = 0; i < items.length; i++) {
+					// companyType is privately held public or non profit
+					if (!(items[i].companyType != null && 
+						items[i].companyType.name == companyType)) {
+						criteria = false;
+					}
+
+					if (criteria &&
+						items[i].industries != null &&
+						items[i].industries.values.name == industries) {
+						
+					}
+
+					if (criteria) {
+						filteredCompany.push(items[i]);
+					}
+				}
+			});
+		}
+
+	});
+}
+
+/**
  * API to get color data
  */
 correlateAPI.prototype.getColorData = function (cb) {
@@ -84,6 +129,10 @@ correlateAPI.prototype.getColorData = function (cb) {
 					}
 				}
 
+				bg = Object.keys(bg).sort(function(a,b){return bg[b]-bg[a]});
+				fg = Object.keys(fg).sort(function(a,b){return fg[b]-fg[a]});
+				imageColor = Object.keys(imageColor).sort(function(a,b){return imageColor[b]-imageColor[a]});
+				
 				cb(bg, fg, imageColor);
 
 				db.close();
@@ -125,6 +174,8 @@ correlateAPI.prototype.getTagData = function (cb) {
 					}
 				}
 
+				tags = Object.keys(tags).sort(function(a,b){return tags[b]-tags[a]});
+				
 				cb(tags);
 
 				db.close();
@@ -134,11 +185,14 @@ correlateAPI.prototype.getTagData = function (cb) {
 }
 
 var correlate = new correlateAPI();
-correlate.getColorData(function(bg, fg, imageColor) {
-	console.log(bg);
-	// console.log(fg);
-	// console.log(imageColor);
+correlate.getCompanyData("Privately Held", "Internet", "51-200", function() {
+
 });
+// correlate.getColorData(function(bg, fg, imageColor) {
+// 	console.log(bg);
+// 	console.log(fg);
+// 	console.log(imageColor);
+// });
 // correlate.getTagData(function(tags) {
 // 	console.log(tags.sort());
 // });
