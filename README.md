@@ -7,6 +7,7 @@ most common characteristics of logos in the specified industry. [Host
 Repository](https://github.com/terrencezli/Logos).
 
 **List of accepted industries**
+
 1. 41   -   **Banking**
 2. 118  -   **Computer Network & Security**
 3. 28   -   **Entertainment**
