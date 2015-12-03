@@ -203,6 +203,7 @@ correlateAPI.prototype.responseVal = function (companyType, industry, companySiz
 								// console.log("Top tags: " + tags);
 								var re = {TopBGColor: bg, TopFGColor: fg, TopImageColor: imageColor, TopTags: tags};
 								console.log(re);
+								console.log(companyType + " " + industry + " " + companySize);
 								db.close();
 								return re;
 							});
@@ -214,15 +215,7 @@ correlateAPI.prototype.responseVal = function (companyType, industry, companySiz
 	});
 }
 
-// correlate.responseVal("Privately Held", 118, "51-200");
-// correlate.getColorData(function(bg, fg, imageColor) {
-// 	console.log(bg);
-// 	console.log(fg);
-// 	console.log(imageColor);
-// });
-// correlate.getTagData(function(tags) {
-// 	console.log(tags.sort());
-// });
+correlate.responseVal("Privately Held", 118, "51-200");
 
 
 module.exports.getCompanyData = correlateAPI.prototype.responseVal;
