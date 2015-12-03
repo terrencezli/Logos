@@ -50,7 +50,7 @@ router.route('/suggestion')
       companySize = req.params.companySize;
       coType = req.params.coType;
 
-      var resultData = correlate.getCompanyData("Privately Held", 118, "51-200");
+      var resultData = correlate.getCompanyData(decodeURIComponent(req.params.coType), req.params.industry, decodeURIComponent(req.params.companySize));
       // do some processing, create the suggestion object
       //suggestion = {color: "#FF0000", numColors: 3, tags: ["sun", "bright", "ocean"]};
       res.json(resultData);
