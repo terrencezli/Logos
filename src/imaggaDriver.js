@@ -17,7 +17,7 @@ var pause = function(milliseconds) {
 var insertTag = function(collection, db, data, cb) {
 	db.collection(collection).insert(data, function(err, result) {
 		if(!err) {
-			console.log("Inserted into logos-tag collection.");
+			console.log("Inserted into " + collection + " collection.");
 			cb();
 		}
 		else {
@@ -29,7 +29,7 @@ var insertTag = function(collection, db, data, cb) {
 var insertColor = function(collection, db, data, cb) {
 	db.collection(collection).insert(data, function(err, result) {
 		if(!err) {
-			console.log("Inserted into logos-color collection.");
+			console.log("Inserted into " + collection + " collection.");
 			cb();
 		}
 		else {
