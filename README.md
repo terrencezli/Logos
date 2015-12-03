@@ -36,13 +36,13 @@ and size.
    "keyboard":22.588365463437224
 }
 
-*The returned values are keywords and their associated confidence
+The returned values are keywords and their associated confidence
 for their relevance within companies that fit the entered parameters.
 In this case, a company size of 201-300 employees within the
 "Alternative Medicine" industry.
 
-Having 3d logos with light, clocks, and/or keyboards are the most
-common occurences*
+**Having 3d logos with light, clocks, and/or keyboards are the most
+common occurences**
 
 ## Motivation
 
