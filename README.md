@@ -40,16 +40,17 @@ var MongoClient = require('mongodb').MongoClient;
  
 Imagga.prototype.tag = function tag(url, callback) {
    MongoClient.connect(mongoURL, function(err, db) {
-      if(err) {
+      
+      if (err) {
          console.log(err);
       }
+       
       else {
          assert.equal(null, err);
          console.log("Connected correctly to server.");
          findURL(db, function(doc) {
             db.close();
-         });
-         
+         });   
       }
    });
 
