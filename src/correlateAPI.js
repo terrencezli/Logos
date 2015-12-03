@@ -61,6 +61,7 @@ correlateAPI.prototype.getCompanyData = function (companyType, industries, emplo
 			console.log(err);
 		}
 		else {
+
 			// get all the collection
 			db.collection('companies').find().toArray(function(err, items) {
 				if (err) {
@@ -89,7 +90,7 @@ correlateAPI.prototype.getCompanyData = function (companyType, industries, emplo
 						validInd &&
 						(items[i].employeeCountRange != null &&
 							items[i].employeeCountRange.name == employeeCountRange)) {
-						filteredCompany.push(items[i]);
+						filteredCompany.push(items[i].name);
 					}
 				}
 
@@ -105,101 +106,73 @@ correlateAPI.prototype.getCompanyData = function (companyType, industries, emplo
 /**
  * API to get color data
  */
-correlateAPI.prototype.getColorData = function (cb) {
+correlateAPI.prototype.getColorData = function (items, cb) {
 	var bg = [];
 	var fg = [];
 	var imageColor = [];
 
-	MongoClient.connect(url, function(err, database) {
+	for (var i = 0; i < items.length; i++) {
+		bg = colorArray(items[i].bgColor, bg);
 
-		db = database;
-		if(err) {
-			console.log(err);
+		fg = colorArray(items[i].fgColor, fg);
+
+		for (var j = 0; j < Object.keys(items[i].imageColor).length; j++) {
+			//console.log(Object.keys(items[i].bgColor)[j]);
+			var colorKey = Object.keys(items[i].imageColor)[j];
+			//var percentVal = items[i].imageColor[colorKey];
+
+			if (typeof imageColor[colorKey] !== 'undefined') {
+				imageColor[colorKey] += 1;
+			}
+			else {
+				imageColor[colorKey] = 1;
+			}
+
+			//process.stdout.write("colorKey: " + colorKey + "percentVal: " + percentVal);
 		}
-		else {
-			// get all the collection
-			db.collection('logos-color').find().toArray(function(err, items) {
-				//console.log(items);
+	}
 
-				for (var i = 0; i < items.length; i++) {
-					bg = colorArray(items[i].bgColor, bg);
-
-					fg = colorArray(items[i].fgColor, fg);
-
-					for (var j = 0; j < Object.keys(items[i].imageColor).length; j++) {
-						//console.log(Object.keys(items[i].bgColor)[j]);
-						var colorKey = Object.keys(items[i].imageColor)[j];
-						//var percentVal = items[i].imageColor[colorKey];
-
-						if (typeof imageColor[colorKey] !== 'undefined') {
-							imageColor[colorKey] += 1;
-						}
-						else {
-							imageColor[colorKey] = 1;
-						}
-
-						//process.stdout.write("colorKey: " + colorKey + "percentVal: " + percentVal);
-					}
-				}
-
-				bg = Object.keys(bg).sort(function(a,b){return bg[b]-bg[a]});
-				fg = Object.keys(fg).sort(function(a,b){return fg[b]-fg[a]});
-				imageColor = Object.keys(imageColor).sort(function(a,b){return imageColor[b]-imageColor[a]});
-				
-				cb(bg, fg, imageColor);
-
-				db.close();
-			});
-		}
-	});
+	bg = Object.keys(bg).sort(function(a,b){return bg[b]-bg[a]});
+	fg = Object.keys(fg).sort(function(a,b){return fg[b]-fg[a]});
+	imageColor = Object.keys(imageColor).sort(function(a,b){return imageColor[b]-imageColor[a]});
+	
+	cb(bg, fg, imageColor);
+		
 }
 
 /**
  * API to get tag data
  */
-correlateAPI.prototype.getTagData = function (cb) {
+correlateAPI.prototype.getTagData = function (items, cb) {
 	var tags = [];
 
-	MongoClient.connect(url, function(err, database) {
-		db = database;
-		if(err) {
-			console.log(err);
+	for (var i = 0; i < items.length; i++) {
+		for (var j = 0; j < Object.keys(items[i].tag).length; j++) {
+			//console.log(items[i].tag[j])
+			var tagName = items[i].tag[j].tag;
+			var confidenceVal = items[i].tag[j].confidence;
+
+			if (typeof tags[tagName] !== 'undefined') {
+				tags[tagName] += confidenceVal;
+			}
+			else {
+				tags[tagName] = confidenceVal;
+			}
+
+			//process.stdout.write("colorKey: " + colorKey + "percentVal: " + percentVal);
 		}
-		else {
-			// get all the collection
-			db.collection('logos-tag').find().toArray(function(err, items) {
-				//console.log(items.length);
+	}
 
-				for (var i = 0; i < items.length; i++) {
-					for (var j = 0; j < Object.keys(items[i].tag).length; j++) {
-						//console.log(items[i].tag[j])
-						var tagName = items[i].tag[j].tag;
-						var confidenceVal = items[i].tag[j].confidence;
-
-						if (typeof tags[tagName] !== 'undefined') {
-							tags[tagName] += confidenceVal;
-						}
-						else {
-							tags[tagName] = confidenceVal;
-						}
-
-						//process.stdout.write("colorKey: " + colorKey + "percentVal: " + percentVal);
-					}
-				}
-
-				tags = Object.keys(tags).sort(function(a,b){return tags[b]-tags[a]});
-				
-				cb(tags);
-
-				db.close();
-			});
-		}
-	});
+	tags = Object.keys(tags).sort(function(a,b){return tags[b]-tags[a]});
+	
+	cb(tags);
 }
 
 var correlate = new correlateAPI();
-correlate.getCompanyData("Privately Held", 118, "51-200", function(collection) {
-	//console.log(collection);
+correlate.getCompanyData("Privately Held", 118, "51-200", function(companies) {
+	//console.log(collection.length);
+	var colorsToDB = [];
+	var tagsToDB = [];
 
 	MongoClient.connect(url, function(err, database) {
 		db = database;
@@ -207,18 +180,35 @@ correlate.getCompanyData("Privately Held", 118, "51-200", function(collection) {
 			console.log(err);
 		}
 		else {
-			for (var i = 0; i < collection.length; i++) {
-				imagga.color1(database, 'logos-color', collection[i].name, collection[i].logoUrl);
-			}
+			db.collection('logos-color-db').find().toArray(function(err, items) {
+				for (var i = 0; i < items.length; i++) {
+					if (items != null && companies.indexOf(items[i].name) > -1) {
+						colorsToDB.push(items[i]);
+					}
+				}
+
+				correlate.getColorData(colorsToDB, function(bg, fg, imageColor) {
+					console.log("Top Background colors: " + bg);
+					console.log("Top Foreground colors: " + fg);
+					console.log("Top Image colors: " + imageColor);
+				});
+			});	
+
+			db.collection('logos-tag-db').find().toArray(function(err, items) {
+				for (var i = 0; i < items.length; i++) {
+					if (items != null && companies.indexOf(items[i].name) > -1) {
+						tagsToDB.push(items[i]);
+					}
+				}
+
+				correlate.getTagData(tagsToDB, function(tags) {
+					console.log("Top tags: " + tags);
+					db.close();
+				});
+			});
 		}
 	});
 
-	// for (var company in collection) {
-	// 	if (collection[company].logoUrl != null) {
-	// 		// console.log(collection[company].employeeCountRange)
-			//imagga.color('logos-color', collection[0].name, collection[0].logoUrl);
-	// 	}
-	// }
 });
 // correlate.getColorData(function(bg, fg, imageColor) {
 // 	console.log(bg);
