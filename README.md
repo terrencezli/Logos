@@ -19,7 +19,7 @@ Repository](https://github.com/terrencezli/Logos).
 In your browser, enter the following url with your own parameters for industry
 and size.
 
-**162.243.144.203:8080/api/suggestion/**
+**http://162.243.144.203:8080/api/suggestion/**
 
 *Here is a sample run looking up companies within the entertainment
 industry (28) with an employee count of 51-400*
@@ -45,7 +45,7 @@ In this case, a company size of 51-400 employees within the
 
 You can also find tags that are associated with a given tag of water if you
 please. By running:
-**http://162.243.144.203:8080/api/tag/water**
+**http://162.243.144.203:8080/api/tag/symbol**
 
 A list of tags will be returned. The list shows that the most common
 occurences and best matches with the water tag are the tags "sky",
