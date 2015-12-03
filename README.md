@@ -3,7 +3,8 @@
 ## Synopsis
 
 This project accepts user input as command line arguments and returns the 
-most common characteristics of logos in the specified industry. [Host
+most common characteristics of logos for companies that satisfy the
+specified parameters. [Host
 Repository](https://github.com/terrencezli/Logos).
 
 **List of accepted industries**
@@ -23,7 +24,7 @@ and size.
 *Here is a sample run looking up companies within the entertainment
 industry (28) with an employee count of 51-400*
 
-162.243.144.203:8080/api/suggestion?industry=28&companySize=51-400
+**http://162.243.144.203:8080/api/suggestion?industry=28&companySize=51-400**
 
 {
    "color":"#FF0000",
@@ -112,14 +113,14 @@ Imagga.prototype.tag = function tag(url, callback) {
 
 ##Future Versions
 
-Here is the list of all the industry codes that LinkedIn offers. In
+[Here](https://developer.linkedin.com/docs/reference/industry-codes).
+is the list of all the industry codes that LinkedIn offers. In
 future implementations we will add more industries to be supported.
 The only limitation as to why we are limiting industries is the size
 of our database.
 
 It is/will be necessary to match spelling and capitalization for this program
-to work. [Entire List of
-Codes](https://developer.linkedin.com/docs/reference/industry-codes).
+to work.
 
 ## Contributors
 
