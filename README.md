@@ -98,10 +98,6 @@ Imagga.prototype.tag = function tag(url, callback) {
    });
 };
 
-## Contributors
-
-Aaron Pramana, Kevin Costello, Terrence Li, Timothy Chu
-
 ##Future Versions
 
 Here is the list of all the industry codes that LinkedIn offers. In
@@ -112,3 +108,7 @@ of our database.
 It is/will be necessary to match spelling and capitalization for this program
 to work. [Entire List of
 Codes](https://developer.linkedin.com/docs/reference/industry-codes).
+
+## Contributors
+
+Aaron Pramana, Kevin Costello, Terrence Li, Timothy Chu
