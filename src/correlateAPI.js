@@ -214,7 +214,7 @@ correlateAPI.prototype.responseVal = function (companyType, industry, companySiz
 	});
 }
 
-correlate.responseVal("Privately Held", 118, "51-200");
+// correlate.responseVal("Privately Held", 118, "51-200");
 // correlate.getColorData(function(bg, fg, imageColor) {
 // 	console.log(bg);
 // 	console.log(fg);
