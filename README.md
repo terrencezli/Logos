@@ -2,12 +2,13 @@
 
 ## Synopsis
 
-This project accepts user input as command line arguments and returns the most common characteristics of logos in the specified industry. [Host
-Repository](https://github.com/terrencezli/Logos); 
+This project accepts user input as command line arguments and returns the 
+most common characteristics of logos in the specified industry. [Host
+Repository](https://github.com/terrencezli/Logos).
 
-## Sample Run
+## **Sample Run**
 
-node somefile.js industry-name
+**node somefile.js industry-name**
 
 For companies in this industry, the most common colors in logos... 
 
@@ -31,6 +32,9 @@ the user on some characteristics to incorporate into their logo
 creations; this may be used for research on logo analysis as well.
 
 ## Code Example
+*Here is a sample snippet of code similar to what our program is
+executing*
+
 
 var MongoClient = require('mongodb').MongoClient;
  
