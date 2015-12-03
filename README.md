@@ -14,24 +14,35 @@ Codes](https://developer.linkedin.com/docs/reference/industry-codes).
 ## **Sample Run**
 In your browser, enter the url with your own parameters for industry
 and size.
+
+**162.243.144.203:8080/api/tag/icon**
+
 *Here is a sample run looking up companies within the industry 125
 (Alternative Medicine) and a employee count of 201-300*
 
 162.243.144.203:8080/api/tag/icon?industry=125&companySize=201-300
 
+{ 
+   "icon":21.05625040783054,
+   "symbol":19.43388188307871,
+   "design":19.05865087801282,
+   "3d":31.33223703063282,
+   "sign":22.41902661345592,
+   "digital clock":20.856885637503733,
+   "plug":19.20224853799241,
+   "light":24.344664298848922,
+   "space":16.482553210125705,
+   "clock":27.651187510914877,
+   "keyboard":22.588365463437224
+}
 
-For companies in the "industry-name" industry, the most common colors in logos... 
+The returned values are keywords and their associated confidence
+for their relevance within companies that fit the entered parameters.
+In this case, a company size of 201-300 employees within the
+"Alternative Medicine" industry.
 
-1. colorA
-2. colorB
-3. colorC
-
-For companies in the "industry-name" industry, the most common keywords associated
-with their logos...
-
-1. Attribute1
-2. Attribute2
-3. Attribute3
+**Having 3d logos with light, clocks, and/or keyboards are the most
+common occurences**
 
 ## Motivation
 
