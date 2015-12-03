@@ -202,8 +202,6 @@ correlateAPI.prototype.responseVal = function (companyType, industry, companySiz
 							correlate.getTagData(tagsToDB, function(tags) {
 								// console.log("Top tags: " + tags);
 								var re = {TopBGColor: bg, TopFGColor: fg, TopImageColor: imageColor, TopTags: tags};
-								console.log(re);
-								console.log(companyType + " " + industry + " " + companySize);
 								db.close();
 								return re;
 							});
