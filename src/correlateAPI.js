@@ -225,4 +225,4 @@ correlateAPI.prototype.responseVal = function (companyType, industry, companySiz
 // });
 
 
-module.exports = correlateAPI;
+module.exports.getCompanyData = correlateAPI.prototype.responseVal;
