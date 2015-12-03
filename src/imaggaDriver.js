@@ -14,8 +14,8 @@ var pause = function(milliseconds) {
 	while ((new Date()) - dt <= milliseconds) { /* Do nothing */ }
 }
 
-var insertTag = function(db, data, cb) {
-	db.collection('logos-tag').insert(data, function(err, result) {
+var insertTag = function(collection, db, data, cb) {
+	db.collection(collection).insert(data, function(err, result) {
 		if(!err) {
 			console.log("Inserted into logos-tag collection.");
 			cb();
@@ -26,8 +26,8 @@ var insertTag = function(db, data, cb) {
 	});
 };
 
-var insertColor = function(db, data, cb) {
-	db.collection('logos-color').insert(data, function(err, result) {
+var insertColor = function(collection, db, data, cb) {
+	db.collection(collection).insert(data, function(err, result) {
 		if(!err) {
 			console.log("Inserted into logos-color collection.");
 			cb();
@@ -163,7 +163,7 @@ var color = function(db, doc, saveFinished, cb) {
 	});
 };
 
-var userTag = function(db, name, url, cb) {
+var userTag = function(collection, db, name, url, cb) {
 	var tagReq = unirest("GET", "http://api.imagga.com/v1/tagging");
 	console.log('User tagging inputted url: ' + url);
 
@@ -197,13 +197,13 @@ var userTag = function(db, name, url, cb) {
 			"tag": tagData
 		};
 
-		cb(db, temp);
+		cb(collection, db, temp);
 		pause(3000);
 
 	});
 };
 
-var userColor = function(db, name, url, cb) {
+var userColor = function(collection, db, name, url, cb) {
 	var colorReq = unirest("GET", "http://api.imagga.com/v1/colors");
 	console.log('User coloring inputted url: ' + url);
 
@@ -282,7 +282,7 @@ var userColor = function(db, name, url, cb) {
 		};
 
 		pause(3000);
-		cb(db, temp);
+		cb(collection, db, temp);
 	});
 };
 
@@ -443,7 +443,7 @@ MongoClient.connect(mongoURL, function(err, db) {
    });
 }
 
-var testUserTag = function(name, url) {
+var testUserTag = function(collection, name, url) {
 	MongoClient.connect('mongodb://pogomylogo:pogo1234pogo@162.243.144.203:27017/pogomylogo', function(err, db) {
 		if(err) {
 			console.log(err);
@@ -452,8 +452,8 @@ var testUserTag = function(name, url) {
 			assert.equal(null, err);
 			console.log("Connected correctly to server.");
 
-			userTag(db, name, url, function(db, data) {
-				insertTag(db, data, function() {
+			userTag(collection, db, name, url, function(collection, db, data) {
+				insertTag(collection, db, data, function() {
 					db.close();
 				});
 			});
@@ -462,7 +462,7 @@ var testUserTag = function(name, url) {
 	});
 }
 
-var testUserColor = function(name, url) {
+var testUserColor = function(collection, name, url) {
 	MongoClient.connect('mongodb://pogomylogo:pogo1234pogo@162.243.144.203:27017/pogomylogo', function(err, db) {
 			if(err) {
 			console.log(err);
@@ -471,8 +471,8 @@ var testUserColor = function(name, url) {
 			assert.equal(null, err);
 			console.log("Connected correctly to server.");
 
-			userColor(db, name, url, function(db, data) {
-				insertColor(db, data, function() {
+			userColor(collection, db, name, url, function(collection, db, data) {
+				insertColor(collection, db, data, function() {
 					db.close();
 				});
 			});

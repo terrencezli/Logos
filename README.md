@@ -2,20 +2,21 @@
 
 ## Synopsis
 
-This project accepts user input as command line arguments and returns the most common characteristics of logos in the specified industry. [Host
-Repository](https://github.com/terrencezli/Logos); 
+This project accepts user input as command line arguments and returns the 
+most common characteristics of logos in the specified industry. [Host
+Repository](https://github.com/terrencezli/Logos).
 
-## Sample Run
+## **Sample Run**
 
-node somefile.js industry-name
+**node somefile.js industry-name**
 
-For companies in this industry, the most common colors in logos... 
+For companies in the "industry-name" industry, the most common colors in logos... 
 
-1. colorA 
-2. colorB 
+1. colorA
+2. colorB
 3. colorC
 
-For companies in this industry, the most common keywords associated
+For companies in the "industry-name" industry, the most common keywords associated
 with their logos...
 
 1. Attribute1
@@ -31,21 +32,26 @@ the user on some characteristics to incorporate into their logo
 creations; this may be used for research on logo analysis as well.
 
 ## Code Example
+*Here is a sample snippet of code similar to what our program is
+executing*
+
 
 var MongoClient = require('mongodb').MongoClient;
  
 Imagga.prototype.tag = function tag(url, callback) {
+   
    MongoClient.connect(mongoURL, function(err, db) {
-      if(err) {
+      
+      if (err) {
          console.log(err);
       }
+       
       else {
          assert.equal(null, err);
          console.log("Connected correctly to server.");
          findURL(db, function(doc) {
             db.close();
-         });
-         
+         });   
       }
    });
 
@@ -62,9 +68,13 @@ Imagga.prototype.tag = function tag(url, callback) {
    });
 
    tagReq.end(function (res) {
+      
       if (res.error) throw new Error(res.error);
+      
       var data = res.body;
+      
       var tagsdata = data['results'][0]['tags'];
+      
       for (var i = 0; i < tagsdata.length; i++) {
          //console.log(tagsdata[i]['tag']);
       }
