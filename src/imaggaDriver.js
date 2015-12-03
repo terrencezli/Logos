@@ -475,8 +475,8 @@ var testUserColor = function(db, collection, name, url) {
 }
 
 var test = new Imagga();
-//test.findURLTag();
-//test.findURLColor();
+test.findURLTag();
+test.findURLColor();
 //test.findNumColor({"name": "Palo Alto Networks"});
 //testUserTag("aaron", "https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAVaAAAAJDgyN2I3NjlhLTkwYjUtNDQxOS1iZTE5LWY0YzhkOTIyZmRkYw.png");
 //testUserColor("terrence", "https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAVaAAAAJDgyN2I3NjlhLTkwYjUtNDQxOS1iZTE5LWY0YzhkOTIyZmRkYw.png");
