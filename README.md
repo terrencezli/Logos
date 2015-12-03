@@ -43,7 +43,9 @@ You can also find tags that are associated with a given tag of water if you
 please. By running:
 **http://162.243.144.203:8080/api/tag/water**
 
-A list of tags will be returned.
+A list of tags will be returned. The list shows that the most common
+occurences and best matches with the water tag are the tags "sky",
+"clouds" and "worm".
 
 
 ## Motivation
