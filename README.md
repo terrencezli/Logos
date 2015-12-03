@@ -6,9 +6,19 @@ This project accepts user input as command line arguments and returns the
 most common characteristics of logos in the specified industry. [Host
 Repository](https://github.com/terrencezli/Logos).
 
-## **Sample Run**
+Here is the list of the industry codes that is used with our program.
+It is necessary to match spelling and capitalization for this program
+to work. [List of
+Codes](https://developer.linkedin.com/docs/reference/industry-codes).
 
-**node somefile.js industry-name**
+## **Sample Run**
+In your browser, enter the url with your own parameters for industry
+and size.
+*Here is a sample run looking up companies within the industry 125
+(Alternative Medicine) and a employee count of 201-300*
+
+162.243.144.203:8080/api/tag/icon?industry=125&companySize=201-300
+
 
 For companies in the "industry-name" industry, the most common colors in logos... 
 
